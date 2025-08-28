@@ -14,7 +14,7 @@ float vec_compute_avg_dif(const float *u, const float* v,  size_t dim);
 
 void print_array(const float *array, size_t d);
 
-//size_t *argsort(...)
+size_t *argsort(const float *array, size_t n);
 
 
 #endif

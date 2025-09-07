@@ -4,8 +4,8 @@
 #include <cmath>
 #include <algorithm>
 
-SimSearch::SimSearch(const Matrix &data, const Matrix &clusters)
-    : mat_data(data), mat_clusters(clusters) {}
+SimSearch::SimSearch(const Matrix &data, const Matrix &clusters, const Cluster &clust)
+    : mat_data(data), mat_clusters(clusters), cluster(clust) {}
 
 std::vector<size_t> SimSearch::search(const float *query, size_t top_k) {
     size_t n = mat_data.getN();

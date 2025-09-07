@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+../include/cluster.hpp
+matrix.hpp
+../include/matrix.hpp
+vector
+-
+
 ../include/matrix.hpp
 iostream
 -
@@ -15,21 +21,11 @@ vector
 -
 matrix.hpp
 ../include/matrix.hpp
+cluster.hpp
+../include/cluster.hpp
 
 ../include/utils.hpp
 cmath
--
-
-/home/pbn/Documents/EDA/cpp/src/simsearch.cpp
-simsearch.hpp
-/home/pbn/Documents/EDA/cpp/src/simsearch.hpp
-utils.hpp
-/home/pbn/Documents/EDA/cpp/src/utils.hpp
-vector
--
-cmath
--
-algorithm
 -
 
 /home/pbn/Documents/EDA/cpp/test.cpp
@@ -37,6 +33,8 @@ utils.hpp
 /home/pbn/Documents/EDA/cpp/utils.hpp
 matrix.hpp
 /home/pbn/Documents/EDA/cpp/matrix.hpp
+cluster.hpp
+/home/pbn/Documents/EDA/cpp/cluster.hpp
 simsearch.hpp
 /home/pbn/Documents/EDA/cpp/simsearch.hpp
 iostream
@@ -44,5 +42,7 @@ iostream
 chrono
 -
 vector
+-
+unordered_set
 -
 

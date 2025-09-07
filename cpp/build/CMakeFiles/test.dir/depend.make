@@ -9,6 +9,7 @@ CMakeFiles/test.dir/src/cluster.cpp.o: ../src/cluster.cpp
 CMakeFiles/test.dir/src/matrix.cpp.o: ../include/matrix.hpp
 CMakeFiles/test.dir/src/matrix.cpp.o: ../src/matrix.cpp
 
+CMakeFiles/test.dir/src/simsearch.cpp.o: ../include/cluster.hpp
 CMakeFiles/test.dir/src/simsearch.cpp.o: ../include/matrix.hpp
 CMakeFiles/test.dir/src/simsearch.cpp.o: ../include/simsearch.hpp
 CMakeFiles/test.dir/src/simsearch.cpp.o: ../include/utils.hpp
@@ -17,6 +18,7 @@ CMakeFiles/test.dir/src/simsearch.cpp.o: ../src/simsearch.cpp
 CMakeFiles/test.dir/src/utils.cpp.o: ../include/utils.hpp
 CMakeFiles/test.dir/src/utils.cpp.o: ../src/utils.cpp
 
+CMakeFiles/test.dir/test.cpp.o: ../include/cluster.hpp
 CMakeFiles/test.dir/test.cpp.o: ../include/matrix.hpp
 CMakeFiles/test.dir/test.cpp.o: ../include/simsearch.hpp
 CMakeFiles/test.dir/test.cpp.o: ../include/utils.hpp

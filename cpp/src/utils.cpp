@@ -1,6 +1,8 @@
 #include "utils.hpp"
 #include <cmath>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 float vec_compute_distance(const float* u, const float* v, size_t dim){
@@ -56,10 +58,10 @@ size_t *argsort(const float *array, size_t n) {
     for (size_t i = 0; i < n; i++) indices[i] = i;
 
     std::sort(indices.begin(), indices.end(),
-              [&](size_t i, size_t j){ return array[i] < array[j]; });
+              [&](size_t i, size_t j) { return array[i] < array[j]; });
 
-    // convertir a arreglo dinámico
     size_t *result = new size_t[n];
     for (size_t i = 0; i < n; i++) result[i] = indices[i];
     return result;
 }
+

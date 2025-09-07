@@ -3,6 +3,7 @@
 #include "simsearch.hpp"
 #include <iostream>
 #include <chrono>
+#include <vector>
 using namespace std;
 using namespace std::chrono;
 
@@ -28,7 +29,7 @@ int main(int argc, char* argv[]) {
 
         // medir tiempo de distancias
         auto start_dist = high_resolution_clock::now();
-        vector<float> dist(mat.getN());
+        std::vector<float> dist(mat.getN());
         for (size_t j = 0; j < mat.getN(); j++) {
             const float *row = mat.getRow(j);
             dist[j] = vec_compute_distance(q, row, mat.getDim());

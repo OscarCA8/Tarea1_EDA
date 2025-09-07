@@ -10,6 +10,7 @@ CMakeFiles/test.dir/src/matrix.cpp.o
  ../include/matrix.hpp
  /home/pbn/Documents/EDA/cpp/src/matrix.cpp
 CMakeFiles/test.dir/src/simsearch.cpp.o
+ ../include/matrix.hpp
  ../include/simsearch.hpp
  ../include/utils.hpp
  /home/pbn/Documents/EDA/cpp/src/simsearch.cpp

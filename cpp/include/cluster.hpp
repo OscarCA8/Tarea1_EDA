@@ -18,6 +18,7 @@ class Cluster{
         const float *getCentroid(size_t i);
         std::vector<size_t> getInds(size_t i);
         void print_clusters() const;
+        const Matrix& getCentroidsMatrix() const { return mat_centroids; }
         virtual ~Cluster();
 };
 #endif

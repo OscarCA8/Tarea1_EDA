@@ -2,38 +2,66 @@ import numpy as np
 import matplotlib.pyplot as plt
 import umap
 
-n_vectors = 1000
-n_queries = 100
-dim = 2
+data = np.load("/home/pbn/Documents/EDA/data_eda.npy")
+queries = np.load("/home/pbn/Documents/EDA/queries_eda.npy")
+query_id = 0 #Aquí podemos editar el valor de query_id para poner el numero de consulta que queremos mostrar
+q = queries[query_id]
 
+def euclidean_distance(a, b):
+    return np.sqrt(((a - b) ** 2).sum(axis=1))
 
-clusters = [[0.809997, 0.479773],
-[0.525087, 0.842694],
-[0.733819, 0.140401],
-[0.182114, 0.824761],
-[0.119629, 0.400015],
-[0.440517, 0.493425],
-[0.285572, 0.13858],
-[0.856857, 0.827084]]
-clusters = np.array(clusters)
+def search_exact(query, data, m):
+    dist = euclidean_distance(data, query)
+    inds = np.argsort(dist)[:m]
+    return inds
 
-data = np.load('/home/jmsaavedrar/Research/git/eda_cpp_full/clustering/data_eda.npy')
-queries = np.load('/home/jmsaavedrar/Research/git/eda_cpp_full/clustering/queries_eda.npy')
+def search_with_clusters(query, data, clusters, m):
+    dist_c = euclidean_distance(clusters, query)
+    c_sorted = np.argsort(dist_c)
 
-inds1 = [8,9,15,25,35,37,49,51,61,67,71,82,86,92,95,100,108,110,114,120,130,145,149,152,160,162,164,177,179,182,183,197,211,217,223,227,236,238,242,243,256,265,271,273,281,288,293,295,306,307,329,334,341,346,349,353,356,359,360,365,367,374,378,388,416,419,422,423,458,497,500,507,510,528,534,539,566,568,580,589,590,592,599,609,615,616,618,619,623,633,655,656,662,673,683,686,689,699,701,702,714,721,728,730,738,743,744,755,762,772,774,780,792,814,819,821,825,833,834,836,837,838,846,850,852,861,865,874,877,880,882,887,893,894,899,901,918,920,945,950,953,961,964,968,969,971,983,995]
+    candidates = []
+    for c_id in c_sorted:
+        dist_to_centroid = euclidean_distance(data, clusters[c_id])
+        inds = np.argsort(dist_to_centroid)[:m]  
+        candidates.extend(list(inds))
+        if len(set(candidates)) >= m:
+            break
 
-inds_1 = [8,9,15,25,35,37,49,51,61,67,71,82,86,92,95,100,108,110,114,120,130,145,149,152,160,162,164,177,179,182,183,197,211,217,223,227,236,238,242,243,256,265,271,273,281,288,293,295,306,307,329,334,341,346,349,353,356,359,360,365,367,374,378,388,416,419,422,423,458,497,500,507,510,528,534,539,566,568,580,589,590,592,599,609,615,616,618,619,623,633,655,656,662,673,683,686,689,699,701,702,714,721,728,730,738,743,744,755,762,772,774,780,792,814,819,821,825,833,834,836,837,838,846,850,852,861,865,874,877,880,882,887,893,894,899,901,918,920,945,950,953,961,964,968,969,971,983,995]
-inds_2 = [6,7,24,27,32,60,70,77,79,87,91,93,96,97,103,116,122,136,140,167,171,175,188,192,193,199,205,214,220,235,237,240,267,278,291,298,301,326,330,333,344,357,376,393,400,404,410,418,424,426,435,446,450,452,457,459,463,464,468,470,479,487,499,522,523,527,536,548,549,552,557,561,564,570,574,576,583,594,608,626,627,630,634,637,641,645,669,670,672,706,712,746,769,770,777,788,790,791,824,832,844,863,866,881,885,908,928,962,963,987]
+    candidates = list(dict.fromkeys(candidates))[:m]
+    return np.array(candidates)
 
+m = 16  #Aquí podemos editar el valor de m para poner la cantidad de vecinos que queremos mostrar
 
-np.save('data_eda.npy', data)
-np.save('queries_eda.npy', queries)
+inds_exact = search_exact(q, data, m)
+clusters = np.array([
+    [0.809997, 0.479773],
+    [0.525087, 0.842694],
+    [0.733819, 0.140401],
+    [0.182114, 0.824761],
+    [0.119629, 0.400015],
+    [0.440517, 0.493425],
+    [0.285572, 0.13858],
+    [0.856857, 0.827084]
+])
+inds_approx = search_with_clusters(q, data, clusters, m)
 
+plt.figure(figsize=(12,5))
 
-plt.scatter(data[:,0], data[:,1], color = 'red')
-plt.scatter(queries[:,0], queries[:,1], color = 'blue')
-# plt.scatter(clusters[:,0], clusters[:,1], color = 'blue')
-# plt.scatter(data[inds_1,0], data[inds_1,1], color = 'green')
-# plt.scatter(data[inds_2,0], data[inds_2,1], color = 'yellow')
-plt.title('Data Visualization')
+# Vecinos exactos, sin errores pero a nivel computacional son muy costosos
+plt.subplot(1,2,1)
+plt.scatter(data[:,0], data[:,1], c="lightgray", s=10, label="Datos")
+plt.scatter(q[0], q[1], c="blue", s=80, marker="*", label="Consulta")
+plt.scatter(data[inds_exact,0], data[inds_exact,1], c="green", s=30, label=f"Top-{m} exactos")
+plt.title(f"Vecinos sin errores pero costosos (m={m})")
+plt.legend()
+
+# Vecinos aproximados, aqui estamos usando clusters lo que lo hace menos costoso pero tiene los errores de aproximacion
+plt.subplot(1,2,2)
+plt.scatter(data[:,0], data[:,1], c="lightgray", s=10, label="Datos")
+plt.scatter(q[0], q[1], c="blue", s=80, marker="*", label="Consulta")
+plt.scatter(data[inds_approx,0], data[inds_approx,1], c="orange", s=30, label=f"Top-{m} aprox")
+plt.scatter(clusters[:,0], clusters[:,1], c="red", marker="x", s=60, label="Centroides")
+plt.title(f"Vecinos aproximados con clusters (clusters, m={m})")
+plt.legend()
+plt.suptitle("Visualización de búsqueda de vecinos")
 plt.show()
